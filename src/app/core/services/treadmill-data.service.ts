@@ -31,6 +31,7 @@ interface LiveConnectionState {
   providedIn: 'root'
 })
 export class TreadmillDataService {
+  private readonly apiKeyStorageKey = 'treadmillApiKey';
   private readonly sampleSubject = new BehaviorSubject<TreadmillSample | null>(
     null
   );
@@ -62,6 +63,23 @@ export class TreadmillDataService {
     this.connect();
   }
 
+  getCurrentApiKey(): string {
+    return this.readApiKey() ?? '';
+  }
+
+  updateApiKey(nextKey: string): void {
+    if (typeof localStorage === 'undefined') {
+      return;
+    }
+    const trimmedKey = nextKey.trim();
+    if (trimmedKey) {
+      localStorage.setItem(this.apiKeyStorageKey, trimmedKey);
+    } else {
+      localStorage.removeItem(this.apiKeyStorageKey);
+    }
+    this.reconnect$.next();
+  }
+
   setPollingInterval(ms: number): void {
     this.pollingIntervalMs = Math.max(500, ms);
     if (this.connectionSubject.value.transport === 'polling') {
@@ -75,7 +93,7 @@ export class TreadmillDataService {
       return;
     }
 
-    if (this.supportsSse()) {
+    if (this.supportsSse() && !this.hasApiKey()) {
       this.connectSse();
     } else {
       this.connectPolling();
@@ -99,7 +117,7 @@ export class TreadmillDataService {
       const url = new URL(
         `${environment.apiBaseUrl}/api/live/stream`
       );
-      const apiKey = this.getApiKey();
+      const apiKey = this.readApiKey();
       if (apiKey) {
         url.searchParams.set('apiKey', apiKey);
       }
@@ -199,18 +217,32 @@ export class TreadmillDataService {
   }
 
   private buildHeaders(): HttpHeaders {
-    const apiKey = this.getApiKey();
+    const apiKey = this.readApiKey();
     if (!apiKey) {
       return new HttpHeaders();
     }
     return new HttpHeaders({
-      'X-API-KEY': apiKey
+      'X-API-Key': apiKey
     });
   }
 
-  private getApiKey(): string | null {
-    const key = environment.apiKey?.trim();
-    return key ? key : null;
+  private readApiKey(): string | null {
+    const storedKey = this.getStoredApiKey();
+    const envKey = environment.apiKey?.trim();
+    const resolvedKey = storedKey ?? envKey;
+    return resolvedKey ? resolvedKey : null;
+  }
+
+  private getStoredApiKey(): string | null {
+    if (typeof localStorage === 'undefined') {
+      return null;
+    }
+    const storedKey = localStorage.getItem(this.apiKeyStorageKey)?.trim();
+    return storedKey ? storedKey : null;
+  }
+
+  private hasApiKey(): boolean {
+    return this.readApiKey() !== null;
   }
 
   private supportsSse(): boolean {

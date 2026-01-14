@@ -31,6 +31,17 @@ import { TreadmillDataService } from '../../core/services/treadmill-data.service
           </mat-form-field>
 
           <mat-form-field appearance="outline">
+            <mat-label>API Key</mat-label>
+            <input
+              matInput
+              type="password"
+              [value]="apiKey"
+              #apiKeyInput
+              (change)="updateApiKey(apiKeyInput.value)"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
             <mat-label>Transport</mat-label>
             <input
               matInput
@@ -66,6 +77,7 @@ import { TreadmillDataService } from '../../core/services/treadmill-data.service
 })
 export class SettingsComponent {
   readonly apiBaseUrl = environment.apiBaseUrl;
+  apiKey = this.treadmillService.getCurrentApiKey();
   readonly connectionState = toSignal(this.treadmillService.connection$, {
     initialValue: {
       status: 'connecting',
@@ -76,6 +88,11 @@ export class SettingsComponent {
   pollingInterval = 1000;
 
   constructor(private treadmillService: TreadmillDataService) {}
+
+  updateApiKey(value: string): void {
+    this.apiKey = value;
+    this.treadmillService.updateApiKey(value);
+  }
 
   updateInterval(value: string): void {
     const parsed = Number(value);
