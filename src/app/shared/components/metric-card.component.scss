@@ -1,0 +1,35 @@
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 140px;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--app-muted);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.metric-label {
+  font-size: var(--metric-label-size);
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: var(--metric-font-size);
+  font-weight: 700;
+}
+
+.metric-value span {
+  font-size: 1.2rem;
+  color: var(--app-muted);
+}
+
+.metric-sub {
+  color: var(--app-muted);
+  font-size: 0.95rem;
+}

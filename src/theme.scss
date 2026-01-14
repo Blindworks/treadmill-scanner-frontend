@@ -1,0 +1,57 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$dark-primary: mat.define-palette(mat.$blue-grey-palette, 200, 100, 400);
+$dark-accent: mat.define-palette(mat.$cyan-palette, 300, 200, 500);
+$dark-warn: mat.define-palette(mat.$deep-orange-palette, 400);
+
+$light-primary: mat.define-palette(mat.$blue-grey-palette, 700, 500, 900);
+$light-accent: mat.define-palette(mat.$cyan-palette, 500, 300, 700);
+$light-warn: mat.define-palette(mat.$deep-orange-palette, 500);
+
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: $dark-primary,
+    tertiary: $dark-accent,
+    warn: $dark-warn
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Inter, Roboto, sans-serif'
+  ),
+  density: 0
+));
+
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: $light-primary,
+    tertiary: $light-accent,
+    warn: $light-warn
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Inter, Roboto, sans-serif'
+  ),
+  density: 0
+));
+
+:root {
+  @include mat.all-component-themes($dark-theme);
+  --app-background: #0b1116;
+  --app-surface: #131c24;
+  --app-text: #ecf2f8;
+  --app-muted: #98a6b3;
+  --app-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  --metric-font-size: clamp(2.2rem, 4vw, 3.6rem);
+  --metric-label-size: 1rem;
+}
+
+.light-theme {
+  @include mat.all-component-themes($light-theme);
+  --app-background: #f4f6f8;
+  --app-surface: #ffffff;
+  --app-text: #16202a;
+  --app-muted: #53616d;
+  --app-shadow: 0 12px 24px rgba(9, 30, 66, 0.12);
+}

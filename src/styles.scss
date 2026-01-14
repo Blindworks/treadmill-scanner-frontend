@@ -1,0 +1,66 @@
+@use "./theme" as *;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Inter", "Roboto", sans-serif;
+  background: var(--app-background);
+  color: var(--app-text);
+}
+
+body.running-mode {
+  --metric-font-size: clamp(2.8rem, 6vw, 4.6rem);
+  --metric-label-size: 1.4rem;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+.scroll-container {
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.metric-card {
+  background: var(--app-surface);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: var(--app-shadow);
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--app-muted);
+}
+
+.large-button {
+  min-height: 56px;
+  font-size: 1.05rem;
+  padding: 0 1.5rem;
+}

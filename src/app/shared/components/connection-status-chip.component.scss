@@ -1,0 +1,20 @@
+mat-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--app-text);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+mat-chip.connected {
+  background: rgba(0, 200, 140, 0.18);
+}
+
+.transport {
+  font-size: 0.75rem;
+  margin-left: 0.35rem;
+  color: var(--app-muted);
+}
