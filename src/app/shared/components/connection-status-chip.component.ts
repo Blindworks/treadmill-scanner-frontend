@@ -8,7 +8,12 @@ import { ConnectionStatus, DataTransport } from '../../core/models/treadmill.mod
   standalone: true,
   imports: [MatChipsModule, MatIconModule],
   template: `
-    <mat-chip [class.connected]="status === 'connected'">
+    <mat-chip
+      [class.connected]="status === 'connected'"
+      [class.connecting]="status === 'connecting'"
+      [class.offline]="status === 'offline'"
+      [class.disconnected]="status === 'disconnected'"
+    >
       <mat-icon>{{ icon }}</mat-icon>
       {{ label }}
       <span class="transport" *ngIf="transport">{{ transport }}</span>
