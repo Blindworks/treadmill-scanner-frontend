@@ -2,35 +2,33 @@
 
 @include mat.core();
 
-$dark-primary: mat.define-palette(mat.$blue-grey-palette, 200, 100, 400);
-$dark-accent: mat.define-palette(mat.$cyan-palette, 300, 200, 500);
-$dark-warn: mat.define-palette(mat.$deep-orange-palette, 400);
+$dark-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 200, 100, 400);
+$dark-accent: mat.m2-define-palette(mat.$m2-cyan-palette, 300, 200, 500);
+$dark-warn: mat.m2-define-palette(mat.$m2-deep-orange-palette, 400);
 
-$light-primary: mat.define-palette(mat.$blue-grey-palette, 700, 500, 900);
-$light-accent: mat.define-palette(mat.$cyan-palette, 500, 300, 700);
-$light-warn: mat.define-palette(mat.$deep-orange-palette, 500);
+$light-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 700, 500, 900);
+$light-accent: mat.m2-define-palette(mat.$m2-cyan-palette, 500, 300, 700);
+$light-warn: mat.m2-define-palette(mat.$m2-deep-orange-palette, 500);
 
-$dark-theme: mat.define-theme((
+$dark-theme: mat.m2-define-dark-theme((
   color: (
-    theme-type: dark,
     primary: $dark-primary,
-    tertiary: $dark-accent,
+    accent: $dark-accent,
     warn: $dark-warn
   ),
-  typography: mat.define-typography-config(
+  typography: mat.m2-define-typography-config(
     $font-family: 'Inter, Roboto, sans-serif'
   ),
   density: 0
 ));
 
-$light-theme: mat.define-theme((
+$light-theme: mat.m2-define-light-theme((
   color: (
-    theme-type: light,
     primary: $light-primary,
-    tertiary: $light-accent,
+    accent: $light-accent,
     warn: $light-warn
   ),
-  typography: mat.define-typography-config(
+  typography: mat.m2-define-typography-config(
     $font-family: 'Inter, Roboto, sans-serif'
   ),
   density: 0

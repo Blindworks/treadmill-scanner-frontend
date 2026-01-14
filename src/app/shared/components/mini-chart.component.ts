@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-mini-chart',
   standalone: true,
-  imports: [BaseChartDirective],
+  imports: [NgChartsModule],
   template: `
     <div class="chart-container">
       <canvas
