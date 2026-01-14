@@ -46,6 +46,7 @@ import { SessionStateService } from './core/services/session-state.service';
           *ngIf="connection$ | async as connection"
           [status]="connection.status"
           [transport]="connection.transport"
+          (retry)="retryPolling()"
         />
         <span class="session-state">Session: {{ sessionState() }}</span>
         <app-running-mode-toggle
@@ -99,5 +100,9 @@ export class AppComponent {
 
   toggleTheme(): void {
     this.lightTheme.update((state) => !state);
+  }
+
+  retryPolling(): void {
+    this.treadmillService.retryPolling();
   }
 }
