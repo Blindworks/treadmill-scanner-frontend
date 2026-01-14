@@ -45,7 +45,8 @@ import { TreadmillDataService } from '../../core/services/treadmill-data.service
               matInput
               type="number"
               [value]="pollingInterval"
-              (change)="updateInterval(($event.target as HTMLInputElement).value)"
+              #pollingIntervalInput
+              (change)="updateInterval(pollingIntervalInput.value)"
             />
           </mat-form-field>
 
