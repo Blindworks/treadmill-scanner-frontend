@@ -193,7 +193,8 @@ export class DashboardComponent {
     initialValue: {
       status: 'connecting' as ConnectionStatus,
       transport: 'sse',
-      retryInSeconds: null
+      retryInSeconds: null,
+      lastError: undefined
     }
   });
   private readonly history = signal<TreadmillSample[]>([]);
