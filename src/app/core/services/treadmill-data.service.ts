@@ -97,7 +97,7 @@ export class TreadmillDataService {
 
     this.zone.runOutsideAngular(() => {
       const url = `${environment.apiBaseUrl}/api/live/stream`;
-      const eventSource = new EventSource(url);
+      const eventSource = new EventSource(url, { withCredentials: true });
       this.eventSource = eventSource;
 
       eventSource.onmessage = (event) => {
@@ -127,7 +127,10 @@ export class TreadmillDataService {
         switchMap(() =>
           this.http
             .get<TreadmillSample>(
-              `${environment.apiBaseUrl}/api/live/latest`
+              `${environment.apiBaseUrl}/api/live/latest`,
+              {
+                withCredentials: true
+              }
             )
             .pipe(
               catchError((error: Error) => {
