@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   BehaviorSubject,
   Subject,
@@ -96,8 +96,16 @@ export class TreadmillDataService {
     this.updateStatus({ status: 'connecting', transport: 'sse' });
 
     this.zone.runOutsideAngular(() => {
-      const url = `${environment.apiBaseUrl}/api/live/stream`;
-      const eventSource = new EventSource(url, { withCredentials: true });
+      const url = new URL(
+        `${environment.apiBaseUrl}/api/live/stream`
+      );
+      const apiKey = this.getApiKey();
+      if (apiKey) {
+        url.searchParams.set('apiKey', apiKey);
+      }
+      const eventSource = new EventSource(url.toString(), {
+        withCredentials: true
+      });
       this.eventSource = eventSource;
 
       eventSource.onmessage = (event) => {
@@ -128,7 +136,10 @@ export class TreadmillDataService {
           this.http
             .get<TreadmillSample>(
               `${environment.apiBaseUrl}/api/live/latest`,
-              { withCredentials: true }
+              {
+                withCredentials: true,
+                headers: this.buildHeaders()
+              }
             )
             .pipe(
               catchError((error: Error) => {
@@ -185,6 +196,21 @@ export class TreadmillDataService {
       this.disconnect();
       this.updateStatus({ status: 'offline', retryInSeconds: null });
     });
+  }
+
+  private buildHeaders(): HttpHeaders {
+    const apiKey = this.getApiKey();
+    if (!apiKey) {
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({
+      'X-API-KEY': apiKey
+    });
+  }
+
+  private getApiKey(): string | null {
+    const key = environment.apiKey?.trim();
+    return key ? key : null;
   }
 
   private supportsSse(): boolean {
