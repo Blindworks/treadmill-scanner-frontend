@@ -1,16 +1,45 @@
 mat-chip {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.45rem;
+  padding: 0.2rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  line-height: 1;
   color: var(--app-text);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+mat-chip mat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  height: 1.05rem;
+  width: 1.05rem;
+  line-height: 1;
+  vertical-align: middle;
+  align-self: center;
 }
 
 mat-chip.connected {
   background: rgba(0, 200, 140, 0.18);
+  border-color: rgba(0, 200, 140, 0.35);
+}
+
+mat-chip.connecting {
+  background: rgba(255, 193, 7, 0.16);
+  border-color: rgba(255, 193, 7, 0.35);
+}
+
+mat-chip.offline,
+mat-chip.disconnected {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .transport {
