@@ -1,0 +1,35 @@
+.sessions mat-card {
+  padding: 1.5rem;
+  background: var(--app-surface);
+  border-radius: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  color: var(--app-muted);
+  margin: 0.4rem 0 0;
+}
+
+table {
+  width: 100%;
+  color: var(--app-text);
+}
+
+th {
+  color: var(--app-muted);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
