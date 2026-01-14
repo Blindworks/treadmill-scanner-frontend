@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { ConnectionStatus, DataTransport } from '../../core/models/treadmill.models';
@@ -13,6 +19,12 @@ import { ConnectionStatus, DataTransport } from '../../core/models/treadmill.mod
       [class.connecting]="status === 'connecting'"
       [class.offline]="status === 'offline'"
       [class.disconnected]="status === 'disconnected'"
+      [class.retry]="canRetry"
+      [attr.role]="canRetry ? 'button' : null"
+      [attr.tabindex]="canRetry ? 0 : null"
+      (click)="handleRetry()"
+      (keydown.enter)="handleRetry()"
+      (keydown.space)="handleRetry()"
     >
       <mat-icon>{{ icon }}</mat-icon>
       {{ label }}
@@ -25,6 +37,7 @@ import { ConnectionStatus, DataTransport } from '../../core/models/treadmill.mod
 export class ConnectionStatusChipComponent {
   @Input({ required: true }) status!: ConnectionStatus;
   @Input() transport: DataTransport | null = null;
+  @Output() retry = new EventEmitter<void>();
 
   get label(): string {
     switch (this.status) {
@@ -50,5 +63,16 @@ export class ConnectionStatusChipComponent {
       default:
         return 'cloud_off';
     }
+  }
+
+  get canRetry(): boolean {
+    return this.status === 'disconnected' && this.transport === 'polling';
+  }
+
+  handleRetry(): void {
+    if (!this.canRetry) {
+      return;
+    }
+    this.retry.emit();
   }
 }

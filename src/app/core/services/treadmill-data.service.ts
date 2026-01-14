@@ -87,6 +87,15 @@ export class TreadmillDataService {
     }
   }
 
+  retryPolling(): void {
+    if (this.isOffline()) {
+      this.updateStatus({ status: 'offline', retryInSeconds: null });
+      return;
+    }
+    this.disconnect();
+    this.connectPolling();
+  }
+
   connect(): void {
     if (this.isOffline()) {
       this.updateStatus({ status: 'offline', retryInSeconds: null });

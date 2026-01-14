@@ -42,6 +42,14 @@ mat-chip.disconnected {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+mat-chip.retry {
+  cursor: pointer;
+}
+
+mat-chip.retry:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 .transport {
   font-size: 0.75rem;
   margin-left: 0.35rem;
