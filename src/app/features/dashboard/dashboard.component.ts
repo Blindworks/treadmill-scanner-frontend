@@ -193,7 +193,8 @@ export class DashboardComponent {
     initialValue: {
       status: 'connecting' as ConnectionStatus,
       transport: 'sse',
-      retryInSeconds: null
+      retryInSeconds: null,
+      lastError: undefined
     }
   });
   private readonly history = signal<TreadmillSample[]>([]);
@@ -215,11 +216,18 @@ export class DashboardComponent {
     });
 
     effect(() => {
-      const status = this.connectionState().status;
+      const connection = this.connectionState();
+      const status = connection.status;
       if (status === 'connected') {
         this.snackbar.open('Backend verbunden', 'OK', { duration: 2000 });
       }
       if (status === 'disconnected') {
+        if (connection.lastError === 'not_found') {
+          this.snackbar.open('Live-Daten nicht gefunden (404). Polling gestoppt.', 'OK', {
+            duration: 4000
+          });
+          return;
+        }
         this.snackbar.open('Backend getrennt – reconnect läuft', 'OK', {
           duration: 3000
         });
