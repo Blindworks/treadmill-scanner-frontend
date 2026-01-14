@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import {
   BehaviorSubject,
   Subject,
@@ -160,7 +160,17 @@ export class TreadmillDataService {
               }
             )
             .pipe(
-              catchError((error: Error) => {
+              catchError((error: HttpErrorResponse) => {
+                if (error.status === 404) {
+                  this.updateStatus({
+                    status: 'disconnected',
+                    transport: 'polling',
+                    retryInSeconds: null,
+                    lastError: 'not_found'
+                  });
+                  this.disconnect();
+                  return of(null);
+                }
                 this.updateStatus({
                   status: 'disconnected',
                   transport: 'polling',
